@@ -1,1 +1,26 @@
 # For more info go here: https://www.freedesktop.org/software/systemd/man/systemd.service.html
+# User defined unit files should to be placed in one of following directories:
+#
+#   /etc/systemd/system - System Administrator defined. Usually suited for WantedBy=multi-user.target
+#
+#   /etc/systemd/user - User defined unit files. Need to be started by adding --user
+#     i.e. sudo systemctl --user enable nzbget.service
+#     In this mode you cannot use WantedBy=multi-user.target and you cannot define User and Group
+
+[Unit]
+Description=NZBGet Daemon
+Documentation=http://nzbget.net/Documentation
+After=network.target
+
+[Service]
+User=<replace_with_the_user_you_want>
+Group=<replace_with_the_group_you_want>
+Type=forking
+ExecStart=</path/to/nzbget/nzbget> -D
+ExecStop=</path/to/nzbget/nzbget> -Q
+ExecReload=</path/to/nzbget/nzbget> -O
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
