@@ -1,0 +1,12 @@
+FROM nginx:1.15.8
+
+EXPOSE 8080
+
+# copy nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# copy static files to serve
+COPY static-html-directory /usr/share/nginx/html
+
+
+
